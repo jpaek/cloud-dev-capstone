@@ -9,12 +9,11 @@ import {
   Grid,
   Header,
   Icon,
-  Input,
   Image,
   Loader
 } from 'semantic-ui-react'
 
-import { createRecipe, deleteRecipe, getRecipes, patchRecipe } from '../api/recipes-api'
+import { deleteRecipe, getRecipes, patchRecipe } from '../api/recipes-api'
 import Auth from '../auth/Auth'
 import { Recipe } from '../types/Recipe'
 
@@ -44,22 +43,8 @@ export class Recipes extends React.PureComponent<RecipesProps, RecipesState> {
     this.props.history.push(`/recipes/${recipeId}/edit`)
   }
 
-  onRecipeCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
-    try {
-      const dueDate = this.calculateDueDate()
-      const newRecipe = await createRecipe(this.props.auth.getIdToken(), {
-        name: this.state.newRecipeName,
-        dueDate,
-        steps: '',
-        ingredients: ''
-      })
-      this.setState({
-        recipes: [...this.state.recipes, newRecipe],
-        newRecipeName: ''
-      })
-    } catch {
-      alert('Recipe creation failed')
-    }
+  onRecipeCreate = async () => {
+    this.props.history.push('/recipes/create')
   }
 
   onRecipeDelete = async (recipeId: string) => {
@@ -93,6 +78,10 @@ export class Recipes extends React.PureComponent<RecipesProps, RecipesState> {
     }
   }
 
+  onViewRecipeButtonClick = async (recipeId: string) => {
+    this.props.history.push(`/recipes/${recipeId}/view`)
+  }
+
   async componentDidMount() {
     try {
       const recipes = await getRecipes(this.props.auth.getIdToken())
@@ -121,19 +110,16 @@ export class Recipes extends React.PureComponent<RecipesProps, RecipesState> {
     return (
       <Grid.Row>
         <Grid.Column width={16}>
-          <Input
-            action={{
-              color: 'teal',
-              labelPosition: 'left',
-              icon: 'add',
-              content: 'New task',
-              onClick: this.onRecipeCreate
-            }}
-            fluid
-            actionPosition="left"
-            placeholder="To change the world..."
-            onChange={this.handleNameChange}
-          />
+          <Button 
+            color='teal'
+            content='New Recipe'
+            icon
+            labelPosition='right'
+            onClick={this.onRecipeCreate}
+          >
+            <Icon name='add' />
+            New Recipe
+          </Button>
         </Grid.Column>
         <Grid.Column width={16}>
           <Divider />
@@ -172,8 +158,13 @@ export class Recipes extends React.PureComponent<RecipesProps, RecipesState> {
                   checked={recipe.done}
                 />
               </Grid.Column>
-              <Grid.Column width={10} verticalAlign="middle">
+              <Grid.Column width={5} verticalAlign="middle">
                 {recipe.name}
+              </Grid.Column>
+              <Grid.Column width={1} verticalAlign="middle">
+              {recipe.attachmentUrl && (
+                <Image src={recipe.attachmentUrl} size="small" wrapped />
+              )}
               </Grid.Column>
               <Grid.Column width={3} floated="right">
                 {recipe.dueDate}
@@ -196,9 +187,15 @@ export class Recipes extends React.PureComponent<RecipesProps, RecipesState> {
                   <Icon name="delete" />
                 </Button>
               </Grid.Column>
-              {recipe.attachmentUrl && (
-                <Image src={recipe.attachmentUrl} size="small" wrapped />
-              )}
+              <Grid.Column width={1} floated="right">
+                <Button
+                  color="blue"
+                  onClick={() => this.onViewRecipeButtonClick(recipe.recipeId)}
+                >
+                  View Recipe
+                </Button>
+              </Grid.Column>
+              
               <Grid.Column width={16}>
                 <Divider />
               </Grid.Column>

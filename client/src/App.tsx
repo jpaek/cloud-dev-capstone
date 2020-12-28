@@ -5,6 +5,8 @@ import { Grid, Menu, Segment } from 'semantic-ui-react'
 import Auth from './auth/Auth'
 import { EditRecipe } from './components/EditRecipe'
 import { LogIn } from './components/LogIn'
+import { CreateRecipe } from './components/CreateRecipe'
+import { RecipeDetail } from './components/Recipe'
 import { NotFound } from './components/NotFound'
 import { Recipes } from './components/Recipes'
 
@@ -93,6 +95,22 @@ export default class App extends Component<AppProps, AppState> {
           exact
           render={props => {
             return <Recipes {...props} auth={this.props.auth} />
+          }}
+        />
+
+        <Route
+          path="/recipes/create"
+          exact
+          render={props => {
+            return <CreateRecipe {...props} auth={this.props.auth} />
+          }}
+        />
+
+        <Route
+          path="/recipes/:recipeId/view"
+          exact
+          render={props => {
+            return <RecipeDetail {...props} auth={this.props.auth} />
           }}
         />
 

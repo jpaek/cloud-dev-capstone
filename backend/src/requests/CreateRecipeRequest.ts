@@ -6,4 +6,5 @@ export interface CreateRecipeRequest {
   dueDate: string
   steps: string
   ingredients: string
+  attachmentUrl?: string
 }

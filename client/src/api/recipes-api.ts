@@ -17,6 +17,23 @@ export async function getRecipes(idToken: string): Promise<Recipe[]> {
   return response.data.items
 }
 
+export async function getRecipe(
+  idToken: string,
+  recipeId: string
+): Promise<Recipe[]> {
+  console.log('Fetching recipe')
+
+  const response = await Axios.get(`${apiEndpoint}/recipes`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
+  })
+  console.log('Recipe:', response.data)
+  const recipes = response.data.items as Recipe[]
+  return recipes.filter(recipe => recipe.recipeId === recipeId)
+}
+
 export async function createRecipe(
   idToken: string,
   newRecipe: CreateRecipeRequest
