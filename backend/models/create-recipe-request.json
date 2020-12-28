@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "recipe",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "dueDate": {
+      "type": "string"
+    },
+    "steps": {
+      "type": "string"
+    },
+    "ingredients": {
+      "type": "string"
+    }
+    
+  },
+  "required": [
+    "name",
+    "dueDate",
+    "steps",
+    "ingredients"
+  ],
+  "additionalProperties": false
+}

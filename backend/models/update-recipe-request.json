@@ -1,0 +1,31 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "group",
+  "type": "object",
+  "properties": {
+    "done": {
+      "type": "boolean"
+    },
+    "dueDate": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "steps": {
+      "type": "string"
+    },
+    "ingredients": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "done",
+    "dueDate",
+    "steps",
+    "ingredients"
+  ],
+  "additionalProperties": false
+}
